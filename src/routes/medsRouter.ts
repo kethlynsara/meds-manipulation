@@ -1,9 +1,10 @@
 import { Router } from "express";
-import { insert, remove } from "../controllers/medsController.js";
+import { insert, remove, sort } from "../controllers/medsController.js";
 
 const medsRouter = Router();
 
-medsRouter.post("/meds", insert);
+medsRouter.post("/meds", sort);
+medsRouter.post("/", insert);
 medsRouter.delete("/meds/:code", remove);
 
 export default medsRouter;
