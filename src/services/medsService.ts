@@ -4,7 +4,7 @@ async function findAll() {
     const meds = await medsRepository.findAll();
 
     if (meds.length !== 0) return meds;
-    else return null;
+    else throw { type: "not found", message: "no medication available" };
 }
 
 async function checkMed(registration: number) {
@@ -55,18 +55,24 @@ async function shellSort(field: string, meds: Medication[]) {
 
 async function sort(field: string) {
     const meds = await findAll();
-    if (meds.length !== 0) await shellSort(field, meds);
-    return meds;
+    if (meds.length !== 0) {
+        await shellSort(field, meds);
+        return meds;
+    } else {
+        throw { type: "not found", message: "no medication available" };
+    }
 }
 
 async function insert(medsData: CreateMedicationData) {
     const dbRegistration = await checkMed(medsData.registration);
     if (!dbRegistration) medsRepository.insert(medsData);
+    else throw { type: "", message: "medication already exists" };
 }
 
 async function remove(code: number) {
     const dbRegistration = await checkMed(code)
     if (dbRegistration) medsRepository.remove(code);
+    else throw { type: "not found", message: "no medication available" };
 }
 
 export const medsService = {
