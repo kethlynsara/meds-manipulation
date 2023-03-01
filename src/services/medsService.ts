@@ -18,10 +18,12 @@ async function insert(medsData: CreateMedicationData) {
     if (!dbRegistration) medsRepository.insert(medsData);
 }
 
-// async function remove(code: number) {
-//     medsRepository.remove(code);
-// }
+async function remove(code: number) {
+    const dbRegistration = await checkMed(code)
+    if (dbRegistration) medsRepository.remove(code);
+}
 
 export const medsService = {
-    insert
+    insert,
+    remove
 }

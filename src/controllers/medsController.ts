@@ -9,7 +9,13 @@ export async function getByCode(req: Request, res: Response) {
 }
 
 export async function insert(req: Request, res: Response) {
-    const data = req.body;
+    const data: CreateMedicationData = req.body;
     await medsService.insert(data);
     res.sendStatus(201);
+}
+
+export async function remove(req: Request, res: Response){
+    const { code } = req.params;
+    await medsService.remove(parseInt(code));
+    res.sendStatus(204);
 }
