@@ -1,9 +1,9 @@
 import { connection } from "../config/db.js";
 
-interface Medication {
+export interface Medication {
     id: number,
     lab: string,
-    registration: string,
+    registration: number,
     presentation: string,
     manufacturerPrice: number,
     consumerPrice: number
@@ -12,13 +12,13 @@ interface Medication {
 export type CreateMedicationData = Omit<Medication, "id">;
 
 async function findAll() {
-    const rows = await connection.query<Medication>(`SELECT * FROM medication`);
-    return rows;
+    const result = await connection.query<Medication, []>(`SELECT * FROM medication`);
+    return result.rows;
 }
 
 async function findByRegistration(registration: number) {
-    const rows = await connection.query<Medication>(`SELECT * FROM medication WHERE registration = $1`, [registration]);
-    return rows;
+    const result = await connection.query<Medication>(`SELECT * FROM medication WHERE registration = $1`, [registration]);
+    return result.rows;
 }
 
 async function insert(data: CreateMedicationData) {
